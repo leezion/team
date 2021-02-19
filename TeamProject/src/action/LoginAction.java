@@ -32,7 +32,7 @@ public class LoginAction implements Action{
       }else if (userid!= null & password !=null) {
     	  request.setAttribute("check", check);
       }
-      System.out.println("execute메소드:"+check);
+      System.out.println("execute method : "+check);
       
       return new ActionForward("main.jsp", true);
    }

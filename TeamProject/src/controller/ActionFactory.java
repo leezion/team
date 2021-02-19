@@ -4,6 +4,7 @@ import action.Action;
 import action.LoginAction;
 import action.LogoutAction;
 import action.MainAction;
+import action.RegisterAction;
 import action.TestAction;
 
 public class ActionFactory {
@@ -25,7 +26,9 @@ public class ActionFactory {
 		switch(command) {
 		
 //		액션 추가예시
-		
+		case "/register/register.do" :
+			action = new RegisterAction();
+			break;
 		case "/logout.do":
 			action = new LogoutAction();
 			break;

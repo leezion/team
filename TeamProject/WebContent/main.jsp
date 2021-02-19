@@ -24,6 +24,7 @@ div.center {
 </style>
 </head>
 <body>
+
 		<div class="left">
 	<c:choose>
 		<c:when test="${loginID ne null }">
@@ -31,25 +32,32 @@ div.center {
 				<tr>
 					<td><c:out value="${loginID }">님 ㅎㅇㅎㅇ<br></c:out></td>
 				</tr>
-				<a href="logout.do">로그아웃</a>
-				<a href="*">마이메뉴</a>
-			</table>
+				<tr>
+					<td>
+					<button onclick="location.href='logout.do'">로그아웃</button>
+					<button onclick="location.href='*'">마이메뉴</button>
+			
+					</td>
+				</tr>
+				</table>
 		</c:when>
 
 
 
 		<c:otherwise>
-			<c:if test="${requestScope.check eq 0}">
-				<script type="text/javascript">
+			
+			<c:if test="${check == 0}">
+				<script>
 					alert('아이디 혹은 비밀번호가 틀렸습니다.');
-					</script>
+				</script>
 			</c:if>
+			
 			<c:if test="${requestScope.check eq -1}">
-				<script type="text/javascript">
+				<script>
 					alert('아이디 혹은 비밀번호가 틀렸습니다.');
-					</script>
+				</script>
 			</c:if>
-
+		
 			<form action="login.do" method="post">
 				<div>
 					<div>
