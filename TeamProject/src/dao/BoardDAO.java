@@ -12,17 +12,12 @@ import vo.BoardVO;
 public class BoardDAO {
 	Connection con;
 	private static BoardDAO boardDAO;
-	
 	private BoardDAO() {}
-	
-	public BoardDAO setConnection(Connection con) {
-		this.con = con;
-		return this;
-	}
-	
 	public static synchronized BoardDAO getInstance() {
 		if(boardDAO == null) {
-			boardDAO = new BoardDAO();
+			synchronized(BoardDAO.class) {
+				boardDAO = new BoardDAO();	
+			}
 		}
 		return boardDAO;
 	}
@@ -70,6 +65,7 @@ public class BoardDAO {
 		ResultSet rs = null;
 		BoardVO boardVO = null;
 		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
+		
 		
 		try {
 			pstmt = con.prepareStatement("SELECT * FROM (SELECT ROWNUM RNUM, ARTICLEID, TITLE, CONTENT, READCOUNT, REGDATE, IP, USERID, USERID_OFF, PASSWORD_OFF FROM (SELECT * FROM BOARD ORDER BY REGDATE DESC)) WHERE RNUM BETWEEN "+startrow+" AND "+endrow);
@@ -163,13 +159,18 @@ public class BoardDAO {
 	}// END int delete(int articleid)
 	
 		
+	
 	// 데이타 삽입
 	public int insert(BoardVO vo) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String sql = "";
 		
+		
 		try {
+		con = JdbcUtil.getConnection();
+			
+			
 			sql = "INSERT INTO BOARD(ARTICLEID, TITLE, CONTENT, READCOUNT, REGDATE, IP, USERID, USERID_OFF, PASSWORD_OFF) "
 					+ "VALUES(SEQ_ARTICLE.NEXTVAL,?,?,?,SYSDATE,?,?,?,?) ";
 			pstmt = con.prepareStatement(sql);
@@ -186,10 +187,17 @@ public class BoardDAO {
 
 			
 			result = pstmt.executeUpdate();
+			JdbcUtil.commit(con);
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} finally {
+			System.out.println("error occurred insert method in BoardDAO class");
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("error occurred insert method in BoardDAO class");
+		}
+		finally {
 			JdbcUtil.close(pstmt);
+			JdbcUtil.close(con);
 		}
 		
 		return result;
@@ -209,9 +217,15 @@ public class BoardDAO {
 			pstmt.setInt(2, articleid);
 			
 			result = pstmt.executeUpdate();
+			
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} finally {
+		} catch(Exception e){
+			e.printStackTrace();
+			
+		}
+		finally {
+			JdbcUtil.close(con);
 			JdbcUtil.close(pstmt);
 		}
 		return result;
@@ -239,7 +253,59 @@ public class BoardDAO {
 	
 	// 필요하다면 이 밑에 DAO관련 메소드 추가하기 바람---------------------------------------------------------------------------------------------------------
 	
+	//articleid를 구하는 메소드
+	public int getNextArticleNumber() {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int number = 0;
+		try {
+			con = JdbcUtil.getConnection();
+			pstmt = con.prepareStatement("select max(articleid) from board");
+			rs = pstmt.executeQuery();
+			if(rs.next())number=rs.getInt(1);
+			number = (int) (number/10);
+		}catch(SQLException se) {
+			se.printStackTrace();
+			System.out.println("Error ouccured in getNextArticleNumber method");
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Error ouccured in getNextArticleNumber method");
+		}finally {
+			JdbcUtil.close(con);
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+		return number;
+		}
 	
+	public String getPassword(String userid) {
+		String password = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = JdbcUtil.getConnection();
+			pstmt = con.prepareStatement("select password from memberlist where userid ='"+userid+"'");
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				password = rs.getString(1);
+				System.out.println("success get the password_off");
+			}
+		}catch(SQLException se) {
+			se.printStackTrace();
+			System.out.println("Error ouccured in getPassword method");
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			JdbcUtil.close(con);
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+		
+		return password;
+	}
 	
 	
 }// END public class BoardDAO

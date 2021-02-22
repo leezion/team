@@ -3,15 +3,15 @@ package vo;
 import java.sql.Timestamp;
 
 public class BoardVO {
-	private int articleid;// number(10)
-	private String title;// varchar2(120) not null
-	private String content;// varchar2(4000) not null
-	private int readcount;// number(8) not null
-	private Timestamp regdate;// timestamp default sysdate not null
-	private String ip;// varchar2(39) not null
-	private String userid;// varchar2(20)
-	private String userid_off;// varchar2(20)
-	private String password_off;// varchar2(20)
+	private int articleid;// number(10) 글 번호
+	private String title;// varchar2(120) not null 제목
+	private String content;// varchar2(4000) not null 내용
+	private int readcount;// number(8) not null 조회수
+	private Timestamp regdate;// timestamp default sysdate not null 작성시간
+	private String ip;// varchar2(39) not null 아이피
+	private String userid;// varchar2(20) 유저아이디
+	private String userid_off;// varchar2(20) 
+	private String password_off;// varchar2(20) 
 	
 	public int getArticleid() {
 		return articleid;

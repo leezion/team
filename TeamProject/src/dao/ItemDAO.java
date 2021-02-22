@@ -43,6 +43,7 @@ public class ItemDAO {
 				itemVO.setItemid(rs.getInt("ITEMID"));
 				itemVO.setCategory(rs.getInt("CATEGORY"));
 				itemVO.setGeneralgoods(rs.getInt("GENERALGOODS"));
+				itemVO.setCodepackage(rs.getInt("CODEPACKAGE"));
 				itemVO.setCode(rs.getString("CODE"));
 				itemVO.setRarity(rs.getInt("RARITY"));
 				itemVO.setFirstlimited(rs.getString("FIRSTLIMITED"));
@@ -80,7 +81,7 @@ public class ItemDAO {
 		ArrayList<ItemVO> list = new ArrayList<ItemVO>();
 		
 		try {
-			pstmt = con.prepareStatement("SELECT * FROM (SELECT ROWNUM RNUM, ITEMID, CATEGORY, GENERALGOODS, CODE, RARITY, FIRSTLIMITED, CONDITION, PRICE, REGDATE, DESCRIPTION, QUANTITY, VISIBLE, DELETED, IMAGE1, IMAGE2, IMAGE3, IMAGE4, SELLERID FROM (SELECT * FROM ITEMLIST ORDER BY REGDATE DESC)) WHERE RNUM BETWEEN "+startrow+" AND "+endrow);
+			pstmt = con.prepareStatement("SELECT * FROM (SELECT ROWNUM RNUM, ITEMID, CATEGORY, GENERALGOODS, CODEPACKAGE, CODE, RARITY, FIRSTLIMITED, CONDITION, PRICE, REGDATE, DESCRIPTION, QUANTITY, VISIBLE, DELETED, IMAGE1, IMAGE2, IMAGE3, IMAGE4, SELLERID FROM (SELECT * FROM ITEMLIST ORDER BY REGDATE DESC)) WHERE RNUM BETWEEN "+startrow+" AND "+endrow);
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
@@ -89,6 +90,7 @@ public class ItemDAO {
 				itemVO.setItemid(rs.getInt("ITEMID"));
 				itemVO.setCategory(rs.getInt("CATEGORY"));
 				itemVO.setGeneralgoods(rs.getInt("GENERALGOODS"));
+				itemVO.setCodepackage(rs.getInt("CODEPACKAGE"));
 				itemVO.setCode(rs.getString("CODE"));
 				itemVO.setRarity(rs.getInt("RARITY"));
 				itemVO.setFirstlimited(rs.getString("FIRSTLIMITED"));
@@ -137,6 +139,7 @@ public class ItemDAO {
 				itemVO.setItemid(rs.getInt("ITEMID"));
 				itemVO.setCategory(rs.getInt("CATEGORY"));
 				itemVO.setGeneralgoods(rs.getInt("GENERALGOODS"));
+				itemVO.setCodepackage(rs.getInt("CODEPACKAGE"));
 				itemVO.setCode(rs.getString("CODE"));
 				itemVO.setRarity(rs.getInt("RARITY"));
 				itemVO.setFirstlimited(rs.getString("FIRSTLIMITED"));
@@ -196,28 +199,28 @@ public class ItemDAO {
 		String sql = "";
 		
 		try {
-			sql = "INSERT INTO ITEMLIST(ITEMID, CATEGORY, GENERALGOODS, CODE, RARITY, FIRSTLIMITED, CONDITION, PRICE, REGDATE, DESCRIPTION, QUANTITY, VISIBLE, DELETED, IMAGE1, IMAGE2, IMAGE3, IMAGE4, SELLERID) "
-					+ "VALUES(SEQ_ITEMLIST.NEXTVAL,?,?,?,?,?,?,?,SYSDATE,?,?,'N','N',?,?,?,?,?) ";
+			sql = "INSERT INTO ITEMLIST(ITEMID, CATEGORY, GENERALGOODS, CODEPACKAGE, CODE, RARITY, FIRSTLIMITED, CONDITION, PRICE, REGDATE, DESCRIPTION, QUANTITY, VISIBLE, DELETED, IMAGE1, IMAGE2, IMAGE3, IMAGE4, SELLERID) "
+					+ "VALUES(SEQ_ITEMLIST.NEXTVAL,?,?,?,?,?,?,?,?,SYSDATE,?,?,'N','N',?,?,?,?,?) ";
 			pstmt = con.prepareStatement(sql);
-			
 			
 			pstmt.setInt(1, vo.getCategory());
 			pstmt.setInt(2, vo.getGeneralgoods());
-			pstmt.setString(3, vo.getCode());
-			pstmt.setInt(4, vo.getRarity());
-			pstmt.setString(5, vo.getFirstlimited());
-			pstmt.setInt(6, vo.getCondition());
-			pstmt.setInt(7, vo.getPrice());
+			pstmt.setInt(3, vo.getCodepackage());
+			pstmt.setString(4, vo.getCode());
+			pstmt.setInt(5, vo.getRarity());
+			pstmt.setString(6, vo.getFirstlimited());
+			pstmt.setInt(7, vo.getCondition());
+			pstmt.setInt(8, vo.getPrice());
 			
-			pstmt.setString(8, vo.getDescription());
-			pstmt.setInt(9, vo.getQuantity());
+			pstmt.setString(9, vo.getDescription());
+			pstmt.setInt(10, vo.getQuantity());
 			
 			
-			pstmt.setString(10, vo.getImage1());
-			pstmt.setString(11, vo.getImage2());
-			pstmt.setString(12, vo.getImage3());
-			pstmt.setString(13, vo.getImage4());
-			pstmt.setString(14, vo.getSellerid());
+			pstmt.setString(11, vo.getImage1());
+			pstmt.setString(12, vo.getImage2());
+			pstmt.setString(13, vo.getImage3());
+			pstmt.setString(14, vo.getImage4());
+			pstmt.setString(15, vo.getSellerid());
 			
 			
 			result = pstmt.executeUpdate();
@@ -270,6 +273,57 @@ public class ItemDAO {
 	}// END int update(int itemid, String attributeName, int inputInt)
 	
 	// 필요하다면 이 밑에 DAO관련 메소드 추가하기 바람---------------------------------------------------------------------------------------------------------	
+	
+	// 모든 판매 등록된 상품의 코드를 스트링리스트로 반환
+	public ArrayList<String> selectAllVisibleCode() {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String str = null;
+		ArrayList<String> codelist = new ArrayList<String>();
+		
+		try {
+			pstmt = con.prepareStatement("SELECT DISTINCT CODE FROM ITEMLIST WHERE VISIBLE='Y' AND DELETED='N'");
+			rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				str = rs.getString("CODE");
+				codelist.add(str);
+			}
+			
+		}catch(SQLException expn) {
+			expn.printStackTrace();
+		}finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+		
+		return codelist;
+		
+	} // END ArrayList<String> showAllVisibleCode()
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }// END public class ItemDAO

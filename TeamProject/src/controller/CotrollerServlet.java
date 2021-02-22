@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import action.Action;
 import vo.ActionForward;
 
-@WebServlet({"*.do","/"})
+@WebServlet("*.do")
 public class CotrollerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

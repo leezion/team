@@ -6,7 +6,8 @@ public class ItemVO {
 	private int itemid;// number(10)
 	private int category;// number(3)
 	private int generalgoods;// number(3)
-	private String code;// varchar2(10)
+	private int codepackage; // number(10)
+	private String code;// varchar2(20)
 	private int rarity;// number(3)
 	private String firstlimited;// varchar2(1)
 	private int condition;// number(3)
@@ -21,7 +22,6 @@ public class ItemVO {
 	private String image3;// varchar2(300)
 	private String image4;// varchar2(300)
 	private String sellerid;// varchar2(20)
-	
 	public int getItemid() {
 		return itemid;
 	}
@@ -39,6 +39,12 @@ public class ItemVO {
 	}
 	public void setGeneralgoods(int generalgoods) {
 		this.generalgoods = generalgoods;
+	}
+	public int getCodepackage() {
+		return codepackage;
+	}
+	public void setCodepackage(int codepackage) {
+		this.codepackage = codepackage;
 	}
 	public String getCode() {
 		return code;
@@ -130,5 +136,15 @@ public class ItemVO {
 	public void setSellerid(String sellerid) {
 		this.sellerid = sellerid;
 	}
+	@Override
+	public String toString() {
+		return "ItemVO [itemid=" + itemid + ", category=" + category + ", generalgoods=" + generalgoods
+				+ ", codepackage=" + codepackage + ", code=" + code + ", rarity=" + rarity + ", firstlimited="
+				+ firstlimited + ", condition=" + condition + ", price=" + price + ", regdate=" + regdate
+				+ ", description=" + description + ", quantity=" + quantity + ", visible=" + visible + ", deleted="
+				+ deleted + ", image1=" + image1 + ", image2=" + image2 + ", image3=" + image3 + ", image4=" + image4
+				+ ", sellerid=" + sellerid + "]";
+	}
+	
 	
 }

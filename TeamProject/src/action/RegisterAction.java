@@ -36,7 +36,7 @@ public class RegisterAction implements Action {
 		 //System.out.println(salt=request.getParameter("salt"));
 		 System.out.println(name=request.getParameter("name"));
 		 //System.out.println(regdate=request.getParameter("regdate"));
-		 System.out.println(email=request.getParameter("emailss")+request.getParameter("emails"));
+		 System.out.println(email=request.getParameter("emailss")+"@"+request.getParameter("emails"));
 		 System.out.println(phone=request.getParameter("phones")+request.getParameter("phoness")+request.getParameter("phonesss"));
 		 System.out.println(kakao_open=request.getParameter("kakao_open"));
 		 System.out.println(kakao_id=request.getParameter("kakao_id"));
@@ -66,13 +66,14 @@ public class RegisterAction implements Action {
 		 memverVO.setRole(role);
 		 
 		 RegisterDAO registerDAO = RegisterDAO.getInstance();
-		if(registerDAO.registing(memverVO)) {
+		 int b = registerDAO.registing(memverVO);
+		if(b>0) {
 			System.out.println(userid+" sign up succesefully");
 		}else {
 			System.out.println(userid+" false sign up");
 		}
 		
-		return new ActionForward("main.jsp", true);
+		return new ActionForward("../main.jsp", true);
 	}
 
 }

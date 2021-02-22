@@ -11,7 +11,7 @@
 		<div align="center">
 			<div>아이디</div>
 			<div>
-				<input type="text" name="userid" value = "id">
+				<input type="text" name="userid" value = "registTest">
 			</div>
 			<div>비밀번호</div>
 			<div>
@@ -19,12 +19,12 @@
 			</div>
 			<div>이름</div>
 			<div>
-				<input type="text" name="name" value="nam">
+				<input type="text" name="name" value="testname">
 			</div>
 			<div>이메일</div>
 			<div>
-				<input type="text" name="eamilss" value="email">@<input list="emails" >
-				<datalist id="emails">
+				<input type="text" name="emailss" value="registTest">@<input type = "text" name ="emails" list="email3" >
+				<datalist id="email3">
 					<option value="naver.com">
 					<option value="zum.com">
 					<option value="hanmail.net">
@@ -34,10 +34,9 @@
 			</div>
 			<div>전화번호</div>
 			<div>
-				<input list="phones" size="3">-<input type="text"
-					name="phoness" size="4" value = "1234">-<input type="text" name="phonesss"
-					size="4" value="5678">
-				<datalist id="phones">
+				<input list="phone1" name = "phones" size="3">-<input type="text"
+					name="phoness" size="4" value = "0100">-<input type="text" name="phonesss" size="4" value="1011">
+				<datalist id="phone1">
 					<option value="010">
 					<option value="02">
 					<option value="031">
@@ -48,11 +47,11 @@
 			</div>
 			<div>오픈 카톡 주소</div>
 			<div>
-				<input type="text" name="kakao_open" value="kakao">
+				<input type="text" name="kakao_open" value="testkakao">
 			</div>
 			<div>카카오톡 아이디</div>
 			<div>
-				<input type="text" name="kakao_id" value="id">
+				<input type="text" name="kakao_id" value="testid">
 			</div>
 			<div>우편번호</div>
 			<div>

@@ -25,15 +25,20 @@ public class RegisterDAO {
 		return registerDAO;
 	}
 	
-	public boolean registing(MemberVO memberVO) {
+	public int registing(MemberVO memberVO) {
 		
 		PreparedStatement pstmt = null;
-		boolean flag = false;
+		int flag = -1;
 		
 		try {
 			con = JdbcUtil.getConnection();
-			String strQuery = "insert into memberlist values(?,?,?,?,sysdate,?,?,?,?,?,?,?,?,?,?)";
+			String strQuery = "insert into memberlist values(?,?,?,?,sysdate,?,?,?,?,?,?,?,?,?)";
 			pstmt = con.prepareStatement(strQuery);
+			
+			System.out.println("in RegisterDAO method --");
+			System.out.println(memberVO.getUserid());
+			System.out.println(memberVO.getSalt());
+			System.out.println("in RegisterDAO method --");
 			pstmt.setString(1, memberVO.getUserid());
 			pstmt.setString(2, memberVO.getPassword());
 			pstmt.setString(3, memberVO.getSalt());
@@ -48,12 +53,17 @@ public class RegisterDAO {
 			pstmt.setInt(12, memberVO.getState());
 			pstmt.setInt(13, memberVO.getRole());
 			
-			flag = pstmt.execute();
+			flag = pstmt.executeUpdate();
 			
+			JdbcUtil.commit(con);
 		}catch(SQLException se) {
 			se.printStackTrace();
 			System.out.println("RegisterDAO class registing method exception");
-		}finally {
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("some Error in RegisterDAO");
+		}
+		finally {
 			JdbcUtil.close(con);
 			JdbcUtil.close(pstmt);
 		}

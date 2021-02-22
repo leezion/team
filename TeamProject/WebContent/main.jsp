@@ -86,7 +86,7 @@ div.center {
 		<div>
 			<ul>
 				<li>공지사항</li>
-				<li>자유게시판</li>
+				<li><a href="board/boardlist.jsp">자유게시판</a></li>
 				<li>Q&amp;A게시판</li>
 			</ul>
 		</div>
@@ -99,28 +99,6 @@ div.center {
 		<div>신고/문의</div>
 	</div>
 	
-
-	<div class="center">
-		<div>
-			<div>한글판</div>
-			<div>일본판</div>
-			<div>카드용품</div>
-		</div>
-		<hr>
-		<div>
-			메인페이지 입니다.<br> <a href="test.do">test.do</a>의 파라미터 전달 예시를
-			확인해보세요.<br>
-		</div>
-		<hr>
-		<div>
-			<div>실시간 게시글</div>
-			<div>
-				<div></div>
-				<div></div>
-			</div>
-		</div>
-	</div>
-
 	<div class="right">
 		<ul>
 			<ins>메인화면</ins>
@@ -142,5 +120,29 @@ div.center {
 		</ul>
 
 	</div>
+
+	<div class="center">
+		<div>
+			<div align = "left">한글판</div>
+			
+			<div align = "right">카드용품</div>
+			<div align = "center">일본판</div>
+		</div>
+		<hr>
+		<div>
+			메인페이지 입니다.<br> <a href="test.do">test.do</a>의 파라미터 전달 예시를
+			확인해보세요.<br>
+		</div>
+		<hr>
+		<div>
+			<div><a href = "board/boardlist.jsp">실시간 게시글</a></div>
+			<div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+	</div>
+
+	
 </body>
 </html>
