@@ -2,6 +2,7 @@ package controller;
 
 import action.Action;
 import action.BoardWriteAction;
+import action.BoardlistAction;
 import action.LoginAction;
 import action.LogoutAction;
 import action.MainAction;
@@ -27,7 +28,10 @@ public class ActionFactory {
 		switch(command) {
 		
 //		액션 추가예시
-		case "/board/boardWrite.do":
+		case "/boardlist.do":
+			action = new BoardlistAction();
+			break;
+		case "/boardWrite.do":
 			action = new BoardWriteAction();
 			break;
 			
@@ -36,7 +40,7 @@ public class ActionFactory {
 			break;
 		case "/logout.do":
 			action = new LogoutAction();
-			break;
+			break;	
 			
 		case "/login.do" :
 			action = new LoginAction();

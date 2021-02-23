@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import db.JdbcUtil;
 import vo.BoardVO;
@@ -307,5 +308,123 @@ public class BoardDAO {
 		return password;
 	}
 	
+	public int getArticleCount(String find, String find_box) {
+
+		Connection conn = null;
+		PreparedStatement pstmt =  null;
+		ResultSet rs = null;
+		int x = 0;
+		
+		try {
+			
+			conn = JdbcUtil.getConnection();
+			
+			// �˻� ������ �ۼ���
+			if(find.equals("writer")) {
+				pstmt = conn.prepareStatement("select count(*) from board where userid=? or userid_off");
+				pstmt.setString(1, find_box);
+			}
+			// �˻� ������ ����
+			else if(find.equals("subject")) {
+				pstmt = conn.prepareStatement("select count(*) from board where title like '%"+find_box+"%'");
+			}
+			// �˻� ������ ����
+			else if(find.equals("content")) {
+				pstmt = conn.prepareStatement("select count(*) from board where content like '%"+find_box+"%'");
+			}else {
+			// ��ü ���� ����
+			pstmt = conn.prepareStatement("select count(*) from board");
+			}	
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				x = rs.getInt(1);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs != null) try {rs.close();}catch(SQLException s) {}
+			if(pstmt != null) try {pstmt.close();}catch(SQLException s) {}
+			if(conn != null) try {conn.close();}catch(SQLException s) {}
+		}
+		return x ;		
+	}
+	
+	
+	public List<BoardVO> getArticles(String find, String find_box, int start, int end) {//1
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<BoardVO> articleList = null;
+		
+		
+		try {
+			conn = JdbcUtil.getConnection();
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("select * from ");
+			sql.append("(select rownum rnum, articleid, title, content, regdate ,readcount, ip, userid, userid_off, password_off from ");
+			if(find.equals("writer")) {
+				sql.append("(select * from board where userid = ? or userid_off = ? order by articleid desc)) where rnum >= ? and rnum <= ?");
+				pstmt= conn.prepareStatement(sql.toString());
+				pstmt.setString(1, find_box);
+				pstmt.setString(2, find_box);
+				pstmt.setInt(3, start);
+				pstmt.setInt(4, end);
+			}else if(find.equals("subject")) {
+				sql.append("(select * from board where  title like '%"+find_box+"%'  order by articleid desc)) where rnum >= ? and rnum <= ?");
+				pstmt= conn.prepareStatement(sql.toString());
+				pstmt.setInt(1, start);
+				pstmt.setInt(2, end);
+			}else if(find.equals("content")) {
+				sql.append("(select * from board where  content like '%"+find_box+"%'  order by articleid desc)) where rnum >= ? and rnum <= ?");
+				pstmt= conn.prepareStatement(sql.toString());
+				pstmt.setInt(1, start);
+				pstmt.setInt(2, end);
+			}else {
+			sql.append("(select * from board order by articleid desc)) where rnum >= ? and rnum <= ?");
+			pstmt= conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, end);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				articleList = new ArrayList<BoardVO>(end-start+1);//4
+				
+				do {
+					BoardVO article = new BoardVO();
+					
+					article.setArticleid(rs.getInt("articleid"));
+					article.setTitle(rs.getString("title"));
+					article.setContent(rs.getString("content"));
+					article.setReadcount(rs.getInt("readcount"));
+					article.setRegdate(rs.getTimestamp("regdate"));
+					article.setIp(rs.getString("ip"));
+					article.setUserid(rs.getString("userid"));
+					article.setUserid_off(rs.getString("userid_off"));
+					article.setPassword_off(rs.getString("password_off"));
+					
+					articleList.add(article);
+					
+				}while(rs.next());
+				
+			}
+		}catch(SQLException se) {
+			se.printStackTrace();
+			System.out.println("error occured in BoardDAO class getArticle method");
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs != null) try {rs.close();}catch(SQLException s) {}
+			if(pstmt != null) try {pstmt.close();}catch(SQLException s) {}
+			if(conn != null) try {conn.close();}catch(SQLException s) {}
+		}
+		
+		return articleList;
+	}// end List (getArticles)
 	
 }// END public class BoardDAO

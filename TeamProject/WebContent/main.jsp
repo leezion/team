@@ -86,7 +86,7 @@ div.center {
 		<div>
 			<ul>
 				<li>공지사항</li>
-				<li><a href="board/boardlist.jsp">자유게시판</a></li>
+				<li><a href="boardlist.do">자유게시판</a></li>
 				<li>Q&amp;A게시판</li>
 			</ul>
 		</div>
@@ -135,7 +135,7 @@ div.center {
 		</div>
 		<hr>
 		<div>
-			<div><a href = "board/boardlist.jsp">실시간 게시글</a></div>
+			<div><a href = "boardlist.do">실시간 게시글</a></div>
 			<div>
 				<div></div>
 				<div></div>
