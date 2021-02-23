@@ -56,7 +56,7 @@ public class BoardWriteAction implements Action {
 		boardVO.setPassword_off(password_off);
 		
 		boardDAO.insert(boardVO);
-		return new ActionForward("boardlist.do", true);
+		return new ActionForward("boardlist.do", false);
 	}
 
 }

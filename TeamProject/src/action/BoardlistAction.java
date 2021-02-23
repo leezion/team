@@ -40,7 +40,9 @@ public class BoardlistAction implements Action {
 				String find_box = null;
 				
 				find = request.getParameter("find");
+				System.out.println("find : " + find);
 				find_box = request.getParameter("find_box");
+				System.out.println("find_box : " + find_box);
 				
 				if(find == null) {
 					find = "no";

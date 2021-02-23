@@ -26,7 +26,7 @@ function check(){
 </head>
 <body bgcolor="${bodyback_c }">
 
-
+	<a href="main.do">메인으로</a>
 	<div align="center">
 		<b>글목록(전체 글: ${count})</b>
 

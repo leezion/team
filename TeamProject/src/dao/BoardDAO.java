@@ -366,6 +366,7 @@ public class BoardDAO {
 			sql.append("(select rownum rnum, articleid, title, content, regdate ,readcount, ip, userid, userid_off, password_off from ");
 			if(find.equals("writer")) {
 				sql.append("(select * from board where userid = ? or userid_off = ? order by articleid desc)) where rnum >= ? and rnum <= ?");
+				System.out.println(sql);
 				pstmt= conn.prepareStatement(sql.toString());
 				pstmt.setString(1, find_box);
 				pstmt.setString(2, find_box);
