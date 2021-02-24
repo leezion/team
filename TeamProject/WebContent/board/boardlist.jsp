@@ -70,7 +70,7 @@ function check(){
                                  쿼리스트리밍으로 url 출력 (상세 페이지로 이동) 
                                  페이지는 현재 페이지 
                           --%> <%-- 6 --%> <a
-							href="boardlist.do?num=${article.articleid}&pageNum=${currentPage}">
+							href="content.do?articleid=${article.articleid}&pageNum=${currentPage}">
 								${article.title}</a></td>
 
 						<td align="center" width="100"> ${article.userid} ${article.userid_off }</td>

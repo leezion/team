@@ -9,6 +9,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+//이건 안쓰는 코드인것같다
+
 <%
    int check;
    if(request.getParameter("check")==null){

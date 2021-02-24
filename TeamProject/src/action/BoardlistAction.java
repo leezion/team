@@ -21,6 +21,10 @@ public class BoardlistAction implements Action {
 				String pageNum =request.getParameter("pageNum");
 				if(pageNum == null) {
 					pageNum ="1";
+				}else if(pageNum.equals("")) {
+					pageNum="1";
+				}else if(pageNum.equals(null)) {
+					pageNum="1";
 				}
 				
 				

@@ -37,18 +37,26 @@ public class JdbcUtil {
 	}
 	
 	public static void close(PreparedStatement pstmt) {
+		if(pstmt == null) {
+			return;
+		}else {
 		try {
 			pstmt.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		}
 	}
 	
 	public static void close(ResultSet rs) {
+		if(rs==null) {
+			return;
+		}else {
 		try {
 			rs.close();
 		} catch(Exception e) {
 			e.printStackTrace();
+		}
 		}
 	}
 	

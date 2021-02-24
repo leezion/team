@@ -23,8 +23,10 @@ public class BoardWriteAction implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		BoardDAO boardDAO = BoardDAO.getInstance();
 		BoardVO boardVO = new BoardVO();
+
 		int articleid = boardDAO.getNextArticleNumber()+1;
 		String title;// varchar2(120) not null 제목
 		String content;// varchar2(4000) not null 내용
@@ -55,8 +57,8 @@ public class BoardWriteAction implements Action {
 		boardVO.setUserid_off(userid_off);
 		boardVO.setPassword_off(password_off);
 		
-		boardDAO.insert(boardVO);
-		return new ActionForward("boardlist.do", false);
+		boardDAO.insertBoard(boardVO);
+		return new ActionForward("/board/writePro.jsp", false);
 	}
 
 }
