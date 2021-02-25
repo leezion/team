@@ -33,8 +33,8 @@ public class ActionFactory {
 		switch(command) {
 		
 //		액션 추가예시
-		case "/deletePro.do":
-		case "deletePro.do" :
+		case "/board/deletePro.do":
+		case "/deletePro.do" :
 			action = new DeleteProAction();
 			break;
 		case "/board/delete.do":

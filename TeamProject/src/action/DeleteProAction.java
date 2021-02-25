@@ -19,11 +19,9 @@ public ActionForward execute(HttpServletRequest request, HttpServletResponse res
 	String password = request.getParameter("password");
 	int check = -1;
 	BoardDAO boardDAO = BoardDAO.getInstance();
-	if(boardDAO.getMemberPassword(articleid).equals("")) {
-		
-	}
+	//if(boardDAO.getMemberPassword(articleid).equals("")) {}
 	check = boardDAO.deleteArticle(articleid, password);
-
+	System.out.println(check);
 	request.setAttribute("pageNum", pageNum);
 	request.setAttribute("check", new Integer(check));
 			

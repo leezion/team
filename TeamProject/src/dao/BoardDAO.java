@@ -548,16 +548,20 @@ public class BoardDAO {
 		int result = -1; // ｰ皺� ｾｽ , 1: ｼ､ｼｺｰ�, 0: ｼ､ ｽﾇﾆﾐ
 
 		try {
-			if (memberPassword.equals("")) {
+			if (memberPassword == null || memberPassword.equals("")) {
+				System.out.println("비회원 게시글 ");
 				pstmt = con.prepareStatement("select password_off from board where articleid=?");
 				pstmt.setInt(1, articleid);
 				rs = pstmt.executeQuery();
 
 				if (rs.next()) {
 					// ｺﾐｹ｣ ｺｳ
-					dbpasswd = rs.getString("passward_off");
-
+					dbpasswd = rs.getString("password_off");
+					System.out.println("비회원 비밀번호" + dbpasswd);
+					System.out.println("내가입력한 비밀번호" + password);
+					
 					if (dbpasswd.equals(password)) {
+						System.out.println("비회원 게시글 삭제");
 						// ｺﾐｹ｣ｰ｡ ｰｰﾀｸｸ� ｼ､ﾃｳｸｮ
 						sql = "delete from board where articleid=?";
 
@@ -567,15 +571,27 @@ public class BoardDAO {
 						pstmt.executeUpdate();
 
 						result = 1; // ｻ霖ｦ ｼｺｰ�
-					} else
+						JdbcUtil.commit(con);
+					} else {
+						System.out.println("비회원 게시글 암호 오류");
 						result = 0;// ｺﾐｹ｣ ｿﾀｷ�
+					}
+						
 				}
-			}else if (memberPassword.equals(password)){
-				pstmt = con.prepareStatement("delete from where articleid=?");
-				result=1;
-			}else {
-				result=0;
+			} else if (memberPassword.equals(password)) {
+				System.out.println("회원게시글 삭제");
+				System.out.println("회원의 비밀번호" + memberPassword);
+				System.out.println("내가 입력한 비밀번호" + password);
+				pstmt = con.prepareStatement("delete from board where articleid=?");
+				pstmt.setInt(1, articleid);
+				pstmt.executeUpdate();
+				JdbcUtil.commit(con);
+				result = 1;
+			} else {
+				System.out.println("회원게시글 암호 오류");
+				result = 0;
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -606,11 +622,21 @@ public class BoardDAO {
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				userid = rs.getString("userid");
+				System.out.println(articleid + "는 " + userid + "의 게시글입니다.");
 			}
-			pstmt = con.prepareStatement("select password from board where userid = ?");
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				password = rs.getString("password");
+
+			if (userid != null) {
+				System.out.println(articleid + "는 회원글입니다.");
+				pstmt = con.prepareStatement("select password from memberlist where userid = ?");
+				pstmt.setString(1, userid);
+				rs = pstmt.executeQuery();
+				if (rs.next()) {
+					password = rs.getString("password");
+					System.out.println(articleid + "암호" + password);
+
+				}
+			} else {
+				System.out.println(articleid + "는비회원글입니다.");
 			}
 
 		} catch (SQLException se) {
