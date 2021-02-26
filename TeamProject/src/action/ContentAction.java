@@ -2,14 +2,17 @@ package action;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.BoardDAO;
+import dao.BoardcommentDAO;
 import vo.ActionForward;
 import vo.BoardVO;
+import vo.BoardcommentVO;
 
 public class ContentAction implements Action {
 	@Override
@@ -39,6 +42,16 @@ public class ContentAction implements Action {
 		request.setAttribute("userid",userid);
 		request.setAttribute("userid_off",userid_off);
 		request.setAttribute("password_off",password_off);
+		
+		//여기서부터 댓글 코드 추가해용
+		ArrayList<BoardcommentVO> comment = new ArrayList();
+		BoardcommentDAO commentDAO = BoardcommentDAO.getInstance();
+		comment = commentDAO.getComment(articleid);
+		
+		request.setAttribute("comment", comment);
+		
+		
+		
 		
 		return new ActionForward("/board/content.jsp",false);
 	}

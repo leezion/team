@@ -4,6 +4,8 @@ import action.Action;
 import action.BoardWriteAction;
 import action.BoardlistAction;
 import action.ContentAction;
+import action.DeleteCommentAction;
+import action.DeleteCommentProAction;
 import action.DeleteFormAction;
 import action.DeleteProAction;
 import action.LoginAction;
@@ -33,6 +35,14 @@ public class ActionFactory {
 		switch(command) {
 		
 //		액션 추가예시
+		case "/deleteCommentPro.do":
+		case "/board/deleteCommentPro.do":
+			action = new DeleteCommentProAction();
+			break;
+		case "/board/deleteComment.do":
+		case "/deleteComment.do":
+			action = new DeleteCommentAction();
+			break;
 		case "/board/deletePro.do":
 		case "/deletePro.do" :
 			action = new DeleteProAction();

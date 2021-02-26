@@ -42,6 +42,28 @@
        <pre>${content }</pre>
        </td>
 </tr>
+<tr height = "30">
+
+<td colspan="2">댓글</td>
+
+</tr>
+<tr height="30">
+<td width="50">아이디</td>
+<td width="250">내용</td>
+<td width="120">작성시간</td>
+<td width="80">ip</td>
+</tr>
+
+<c:forEach var="comment" items="${comment }">
+	<tr height ="30">
+	<td align = "center" width="50">${comment.userid }${comment.userid_off }</td>
+	<td width ="250">${comment.content }</td>
+	<td width ="100">${comment.regdate }</td>
+	<td width = "60">${comment.ip }</td>
+	<td><input type="button" value ="삭제" onclick="document.location.href='deleteComment.do?commentid=${comment.commentid }&articleid=${articleid}&pageNum=${pageNum }'"></td>
+	
+	</tr>
+	</c:forEach>
 
 <tr height="30">
       
